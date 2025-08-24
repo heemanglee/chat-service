@@ -5,6 +5,7 @@ import static com.example.chat_service.entity.User.*;
 import com.example.chat_service.dto.response.user.UserRegisterResponse;
 import com.example.chat_service.entity.User;
 import com.example.chat_service.repository.UserRepository;
+import com.example.chat_service.utils.PasswordUtils;
 import com.example.chat_service.validator.UserValidator;
 import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotBlank;
@@ -19,7 +20,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final UserValidator userValidator;
-    private final BCryptPasswordEncoder passwordEncoder;
+    private final PasswordUtils passwordUtils;
 
     @Transactional
     public UserRegisterResponse register(String username, String email, String rawPassword) {
@@ -29,7 +30,7 @@ public class UserService {
 
         userValidator.validateForRegisterByEmail(email);
 
-        User user = createUser(username, email, passwordEncoder.encode(rawPassword));
+        User user = createUser(username, email, passwordUtils.encode(rawPassword));
         User savedUser = userRepository.save(user);
 
         return new UserRegisterResponse(savedUser);
@@ -41,7 +42,7 @@ public class UserService {
          */
 
         User findUser = userValidator.validateUserExistsForLogin(email);
-        return passwordEncoder.matches(rawPassword, findUser.getPassword());
+        return passwordUtils.matches(rawPassword, findUser.getPassword());
     }
 
 }
