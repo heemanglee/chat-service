@@ -7,6 +7,6 @@ import lombok.Getter;
 @AllArgsConstructor
 public class UserLoginResponse {
 
-    boolean result;
+    String accessToken;
 
 }
