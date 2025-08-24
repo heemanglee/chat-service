@@ -15,5 +15,4 @@ public class UserRegisterResponse {
     public UserRegisterResponse(User user) {
         this(user.getId(), user.getUsername(), user.getEmail());
     }
-
 }

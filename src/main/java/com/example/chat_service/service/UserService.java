@@ -7,6 +7,7 @@ import com.example.chat_service.entity.User;
 import com.example.chat_service.repository.UserRepository;
 import com.example.chat_service.validator.UserValidator;
 import jakarta.transaction.Transactional;
+import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -32,6 +33,15 @@ public class UserService {
         User savedUser = userRepository.save(user);
 
         return new UserRegisterResponse(savedUser);
+    }
+
+    public boolean login(String email, String rawPassword) {
+        /**
+         * 사용자의 로그인을 처리합니다.
+         */
+
+        User findUser = userValidator.validateUserExistsForLogin(email);
+        return passwordEncoder.matches(rawPassword, findUser.getPassword());
     }
 
 }
