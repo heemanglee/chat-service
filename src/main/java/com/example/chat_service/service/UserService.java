@@ -1,5 +1,6 @@
 package com.example.chat_service.service;
 
+import com.example.chat_service.dto.response.user.UserRegisterResponse;
 import com.example.chat_service.entity.User;
 import com.example.chat_service.repository.UserRepository;
 import com.example.chat_service.validator.UserValidator;
@@ -16,7 +17,7 @@ public class UserService {
     private final UserValidator userValidator;
 
     @Transactional
-    public ResponseEntity<String> register(String username, String email, String rawPassword) {
+    public UserRegisterResponse register(String username, String email, String rawPassword) {
         /**
          * 사용자 회원가입을 처리합니다.
          */
@@ -24,9 +25,9 @@ public class UserService {
         userValidator.validateForRegisterByEmail(email);
 
         User user = User.createUser(username, email, rawPassword);
-        userRepository.save(user);
+        User savedUser = userRepository.save(user);
 
-        return ResponseEntity.ok("Registered Successfully");
+        return new UserRegisterResponse(savedUser);
     }
 
 }
