@@ -15,7 +15,6 @@ public class UserService {
 
     @Transactional
     public ResponseEntity<String> register(String userId, String username, String email, String rawPassword) {
-
         User user = User.createUser(userId, username, email, rawPassword);
         userRepository.save(user);
 
