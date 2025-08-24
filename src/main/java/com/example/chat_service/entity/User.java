@@ -25,9 +25,6 @@ public class User extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "user_id", unique = true, length = 50)
-    private String userId;
-
     @Column(name = "username", length = 100)
     private String username;
 
@@ -43,15 +40,14 @@ public class User extends BaseEntity {
     @Column(name = "last_seen")
     private LocalDateTime lastSeen;
 
-    public User(String userId, String username, String email, String password) {
-        this.userId = userId;
+    public User(String username, String email, String password) {
         this.username = username;
         this.email = email;
         this.password = password;
     }
 
-    public static User createUser(String userId, String username, String email, String rawPassword) {
-        return new User(userId, username, email, rawPassword);
+    public static User createUser(String username, String email, String rawPassword) {
+        return new User(username, email, rawPassword);
     }
 
 }

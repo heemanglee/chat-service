@@ -2,6 +2,7 @@ package com.example.chat_service.exception;
 
 import java.util.HashMap;
 import java.util.Map;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -19,6 +20,18 @@ public class GlobalExceptionHandler {
         });
 
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<Map<String, String>> handleDataIntegrityViolationException(DataIntegrityViolationException ex) {
+        /**
+         * DB 무결성 제약 조건(ex. UNIQUE)를 위반할 경우 발생하는 에외를 처리합니다.
+         * 기본적으로 무결성 제약 조건은 비즈니스 로직에서 먼저 처리하되, 예상하지 못한 예외가 발생할 경우를 처리합니다.
+         */
+
+        Map<String, String> errors = new HashMap<>();
+        errors.put("message", ex.getRootCause().getMessage());
+        return new ResponseEntity<>(errors, HttpStatus.CONFLICT);
     }
 
 }

@@ -14,8 +14,17 @@ public class UserService {
     private final UserRepository userRepository;
 
     @Transactional
-    public ResponseEntity<String> register(String userId, String username, String email, String rawPassword) {
-        User user = User.createUser(userId, username, email, rawPassword);
+    public ResponseEntity<String> register(String username, String email, String rawPassword) {
+        /**
+         * 사용자 회원가입을 처리합니다.
+         */
+
+        // 중복된 이메일 여부 검증
+        userRepository.findByEmail(email).ifPresent(user -> {
+            throw new IllegalArgumentException("Duplicate Email by + " + email);
+        });
+
+        User user = User.createUser(username, email, rawPassword);
         userRepository.save(user);
 
         return ResponseEntity.ok("Registered Successfully");

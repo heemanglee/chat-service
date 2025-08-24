@@ -17,7 +17,6 @@ public class UserController {
 
     @PostMapping("/api/users/register")
     public ResponseEntity<String> registerUser(@Valid @RequestBody UserRegisterRequest request) {
-        return userService.register(request.getUserId(), request.getUsername(), request.getEmail(),
-                request.getRawPassword());
+        return userService.register(request.getUsername(), request.getEmail(), request.getRawPassword());
     }
 }

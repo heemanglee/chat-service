@@ -10,9 +10,6 @@ public class UserRegisterRequest {
      * 사용자 회원가입 시 주입받는 값 검증 DTO
      */
 
-    @NotBlank(message = "userId는 필수 값입니다")
-    private String userId;
-
     @NotBlank(message = "username은 필수 값입니다")
     private String username;
 
