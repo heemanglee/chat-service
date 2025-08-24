@@ -13,9 +13,7 @@ logs/
 *.log
 
 # Spring Boot
-application-*.properties
-application-*.yml
-!application.properties
+application-local.yml
 !application.yml
 
 # OS specific files
