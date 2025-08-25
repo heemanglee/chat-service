@@ -34,8 +34,8 @@ public class UserController {
 
     @PostMapping("/login")
     public CommonApiResponse<UserLoginResponse> loginUser(@Valid @RequestBody UserLoginRequest request) {
-        String accessToken = userService.login(request.getEmail(), request.getRawPassword());
-        return CommonApiResponse.success(new UserLoginResponse(accessToken));
+        UserLoginResponse response = userService.login(request.getEmail(), request.getRawPassword());
+        return CommonApiResponse.success(response);
     }
 
 }

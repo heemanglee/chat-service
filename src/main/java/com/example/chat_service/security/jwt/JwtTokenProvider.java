@@ -1,5 +1,7 @@
 package com.example.chat_service.security.jwt;
 
+import static io.jsonwebtoken.SignatureAlgorithm.*;
+
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
@@ -43,7 +45,28 @@ public class JwtTokenProvider {
                 .setSubject(userId.toString())
                 .setClaims(claims)
                 .setExpiration(accessTokenExpired)
-                .signWith(key, SignatureAlgorithm.HS256)
+                .signWith(key, HS256)
                 .compact();
     }
+
+    public String generateRefreshToken(Long userId, String email, String username) {
+        /**
+         * Refresh Token을 발급합니다.
+         */
+
+        long now = (new Date()).getTime();
+        Date tokenExpired = new Date(now + refreshTokenTtl);
+
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("email", email);
+        claims.put("username", username);
+
+        return Jwts.builder()
+                .setSubject(userId.toString())
+                .setClaims(claims)
+                .setExpiration(tokenExpired)
+                .signWith(key, HS256)
+                .compact();
+    }
+
 }
