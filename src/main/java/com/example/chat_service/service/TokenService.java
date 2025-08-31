@@ -30,7 +30,6 @@ public class TokenService {
     }
 
     public void saveRefreshToken(String email, String refreshToken) {
-        System.out.println("refrestToken: " + refreshToken);
         refreshTokenService.save(email, refreshToken, refreshTokenTtl);
     }
 
