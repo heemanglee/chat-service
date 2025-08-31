@@ -13,7 +13,6 @@ import com.example.chat_service.service.TokenService;
 import com.example.chat_service.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.antlr.v4.runtime.Token;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -47,7 +46,7 @@ public class UserController {
     }
 
     @PostMapping("/refresh")
-    public CommonApiResponse<TokenRefreshResponse> refreshToken(@RequestBody TokenRefreshRequest request) {
+    public CommonApiResponse<TokenRefreshResponse> refreshToken(@Valid @RequestBody TokenRefreshRequest request) {
         TokenPair newToken = tokenService.refreshToken(request.getEmail(), request.getRefreshToken());
         TokenRefreshResponse response = TokenRefreshResponse.create(newToken);
         return CommonApiResponse.success(HttpStatus.CREATED, response);
