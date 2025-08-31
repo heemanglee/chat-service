@@ -18,7 +18,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -56,8 +55,8 @@ public class UserController {
     }
 
     @GetMapping("/me")
-    public CommonApiResponse<GetUserInfoResponse> getUserInfo(@RequestHeader("Authorization") String authorization) {
-        GetUserInfoResponse response = userService.getUserInfo(authorization);
+    public CommonApiResponse<GetUserInfoResponse> getUserInfo() {
+        GetUserInfoResponse response = userService.getUserInfo();
         return CommonApiResponse.success(response);
     }
 

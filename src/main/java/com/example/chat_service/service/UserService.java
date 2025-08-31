@@ -15,6 +15,8 @@ import io.jsonwebtoken.Claims;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -62,20 +64,16 @@ public class UserService {
         throw new IllegalArgumentException("Invalid email or password");
     }
 
-    public GetUserInfoResponse getUserInfo(String authorization) {
-        if (authorization == null) {
-            throw new IllegalArgumentException("Authorization is null");
-        }
-        
-        if (authorization.startsWith("Bearer ")) {
-            String accessToken = authorization.substring(7);
-            Claims claims = jwtTokenProvider.getClaimsFromToken(accessToken);
+    public GetUserInfoResponse getUserInfo() {
+        // SecurityContext에서 인증된 사용자의 정보 가져오기
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-            String email = claims.get("email", String.class);
-            return GetUserInfoResponse.create(email);
+        if (auth == null || !auth.isAuthenticated()) {
+            throw new IllegalArgumentException("Invalid username or password");
         }
 
-        throw new IllegalArgumentException("Invalid authorization");
+        String email = auth.getName();
+        return GetUserInfoResponse.create(email);
     }
 
 }
