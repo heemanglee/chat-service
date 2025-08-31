@@ -1,16 +1,16 @@
-package com.example.chat_service.service;
+package com.example.chat_service.infrastructure;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 
 @RequiredArgsConstructor
-@Service
-public class RefreshTokenService {
+@Repository
+public class RefreshTokenRepository {
 
-    private final RedisTemplate<String, String> redisTemplate;
+    private final RedisTemplate<String, Object> redisTemplate;
     private static final String REFRESH_TOKEN_PREFIX = "user:refresh_token:";
 
     public void save(String email, String refreshToken, long expirationSeconds) {
@@ -32,7 +32,7 @@ public class RefreshTokenService {
          */
 
         String key = REFRESH_TOKEN_PREFIX + email;
-        return redisTemplate.opsForValue().get(key);
+        return (String) redisTemplate.opsForValue().get(key);
     }
 
     public void deleteRefreshToken(String email) {
@@ -44,6 +44,5 @@ public class RefreshTokenService {
         String key = REFRESH_TOKEN_PREFIX + email;
         redisTemplate.delete(key);
     }
-
 
 }
