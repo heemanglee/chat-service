@@ -1,18 +1,15 @@
 package com.example.chat_service.security.filter;
 
 import com.example.chat_service.security.jwt.JwtTokenProvider;
+import com.example.chat_service.security.service.AuthenticationService;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -22,6 +19,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtTokenProvider jwtTokenProvider;
+    private final AuthenticationService authenticationService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
@@ -34,12 +32,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             try {
                 Claims claims = jwtTokenProvider.getClaimsFromToken(token);
                 String email = claims.get("email", String.class);
-                
-                if (email != null) {
-                    Authentication authentication = new UsernamePasswordAuthenticationToken(
-                            email, null, new ArrayList<>()
-                    );
-                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                String username = claims.get("username", String.class);
+
+                if (email != null && username != null) {
+                    authenticationService.authentication(email, username);
                     log.debug("JWT authentication successful for user: {}", email);
                 }
             } catch (Exception e) {

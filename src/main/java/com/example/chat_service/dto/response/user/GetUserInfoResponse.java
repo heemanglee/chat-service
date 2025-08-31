@@ -8,8 +8,9 @@ import lombok.RequiredArgsConstructor;
 public class GetUserInfoResponse {
 
     private final String email;
+    private final String username;
 
-    public static GetUserInfoResponse create(String email) {
-        return new GetUserInfoResponse(email);
+    public static GetUserInfoResponse create(String email, String username) {
+        return new GetUserInfoResponse(email, username);
     }
 }

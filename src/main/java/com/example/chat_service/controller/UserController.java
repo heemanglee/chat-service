@@ -9,12 +9,14 @@ import com.example.chat_service.dto.response.user.GetUserInfoResponse;
 import com.example.chat_service.dto.response.user.TokenRefreshResponse;
 import com.example.chat_service.dto.response.user.UserLoginResponse;
 import com.example.chat_service.dto.response.user.UserRegisterResponse;
+import com.example.chat_service.security.dto.CustomUserDetails;
 import com.example.chat_service.service.RefreshTokenService;
 import com.example.chat_service.service.TokenService;
 import com.example.chat_service.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -55,8 +57,8 @@ public class UserController {
     }
 
     @GetMapping("/me")
-    public CommonApiResponse<GetUserInfoResponse> getUserInfo() {
-        GetUserInfoResponse response = userService.getUserInfo();
+    public CommonApiResponse<GetUserInfoResponse> getUserInfo(@AuthenticationPrincipal CustomUserDetails userDetails) {
+        GetUserInfoResponse response = userService.getUserInfo(userDetails);
         return CommonApiResponse.success(response);
     }
 

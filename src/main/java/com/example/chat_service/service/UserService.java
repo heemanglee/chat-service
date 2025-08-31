@@ -8,6 +8,7 @@ import com.example.chat_service.dto.response.user.UserLoginResponse;
 import com.example.chat_service.dto.response.user.UserRegisterResponse;
 import com.example.chat_service.entity.User;
 import com.example.chat_service.repository.UserRepository;
+import com.example.chat_service.security.dto.CustomUserDetails;
 import com.example.chat_service.security.jwt.JwtTokenProvider;
 import com.example.chat_service.utils.PasswordUtils;
 import com.example.chat_service.validator.UserValidator;
@@ -17,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -64,16 +66,11 @@ public class UserService {
         throw new IllegalArgumentException("Invalid email or password");
     }
 
-    public GetUserInfoResponse getUserInfo() {
+    public GetUserInfoResponse getUserInfo(CustomUserDetails userDetails) {
         // SecurityContext에서 인증된 사용자의 정보 가져오기
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
-        if (auth == null || !auth.isAuthenticated()) {
-            throw new IllegalArgumentException("Invalid username or password");
-        }
-
-        String email = auth.getName();
-        return GetUserInfoResponse.create(email);
+        String email = userDetails.getEmail();
+        String username = userDetails.getUsername();
+        return GetUserInfoResponse.create(email, username);
     }
 
 }
