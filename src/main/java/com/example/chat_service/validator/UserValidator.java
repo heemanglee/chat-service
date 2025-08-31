@@ -1,6 +1,7 @@
 package com.example.chat_service.validator;
 
 import com.example.chat_service.entity.User;
+import com.example.chat_service.exception.DuplicateEmailException;
 import com.example.chat_service.exception.InvalidTokenException;
 import com.example.chat_service.repository.UserRepository;
 import com.example.chat_service.security.jwt.JwtTokenProvider;
@@ -42,7 +43,7 @@ public class UserValidator {
 
     private void validateEmailDuplicate(String email) {
         userRepository.findByEmail(email).ifPresent(user -> {
-            throw new IllegalArgumentException("Duplicate User Email: " + email);
+            throw new DuplicateEmailException("Duplicate User Email: " + email);
         });
     }
 
