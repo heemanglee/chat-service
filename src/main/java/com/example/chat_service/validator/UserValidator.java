@@ -24,7 +24,7 @@ public class UserValidator {
 
     public void validateRefreshToken(String email, String refreshToken) {
         // 클라이언트가 전달한 Refresh Token 검증
-        boolean isCorrectToken = tokenProvider.validateToken(refreshToken);
+        boolean isCorrectToken = tokenProvider.validateToken(email, refreshToken);
         if (!isCorrectToken) {
             throw new InvalidTokenException("Invalid refresh token");
         }

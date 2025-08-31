@@ -1,18 +1,21 @@
 package com.example.chat_service.security.jwt;
 
-import static io.jsonwebtoken.SignatureAlgorithm.*;
+import static io.jsonwebtoken.SignatureAlgorithm.HS256;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.security.SignatureException;
 import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+@Slf4j
 @Component
 public class JwtTokenProvider {
 
@@ -69,17 +72,18 @@ public class JwtTokenProvider {
                 .compact();
     }
 
-    public boolean validateToken(String token) {
-        /**
-         *
-         */
+    public boolean validateToken(String email, String token) {
         try {
             Jwts.parserBuilder()
                     .setSigningKey(key)
                     .build()
                     .parseClaimsJws(token);
             return true;
-        } catch(Exception ex) {
+        } catch (ExpiredJwtException ex) {
+            log.warn("JWT Token expired for user: {}", email);
+            return false;
+        } catch(SignatureException ex) {
+            log.error("Invalid JWT signature error for user: {}", email);
             return false;
         }
     }
