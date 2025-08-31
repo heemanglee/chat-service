@@ -2,6 +2,8 @@ package com.example.chat_service.security.jwt;
 
 import static io.jsonwebtoken.SignatureAlgorithm.HS256;
 
+import com.example.chat_service.exception.InvalidTokenException;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
@@ -85,6 +87,22 @@ public class JwtTokenProvider {
         } catch(SignatureException ex) {
             log.error("Invalid JWT signature error for user: {}", email);
             return false;
+        }
+    }
+
+    public Claims getClaimsFromToken(String token) {
+        try {
+            return Jwts.parserBuilder()
+                    .setSigningKey(key)
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
+        } catch (ExpiredJwtException ex) {
+            throw new InvalidTokenException("Expired token");
+        } catch (SignatureException ex) {
+            throw new InvalidTokenException("Invalid JWT signature");
+        } catch (Exception ex) {
+            throw new InvalidTokenException("JWT token validation error");
         }
     }
 

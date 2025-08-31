@@ -5,6 +5,7 @@ import com.example.chat_service.dto.request.user.UserLoginRequest;
 import com.example.chat_service.dto.request.user.UserRegisterRequest;
 import com.example.chat_service.dto.response.CommonApiResponse;
 import com.example.chat_service.dto.response.token.TokenPair;
+import com.example.chat_service.dto.response.user.GetUserInfoResponse;
 import com.example.chat_service.dto.response.user.TokenRefreshResponse;
 import com.example.chat_service.dto.response.user.UserLoginResponse;
 import com.example.chat_service.dto.response.user.UserRegisterResponse;
@@ -14,8 +15,10 @@ import com.example.chat_service.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -50,6 +53,12 @@ public class UserController {
         TokenPair newToken = tokenService.refreshToken(request.getEmail(), request.getRefreshToken());
         TokenRefreshResponse response = TokenRefreshResponse.create(newToken);
         return CommonApiResponse.success(HttpStatus.CREATED, response);
+    }
+
+    @GetMapping("/me")
+    public CommonApiResponse<GetUserInfoResponse> getUserInfo(@RequestHeader("Authorization") String authorization) {
+        GetUserInfoResponse response = userService.getUserInfo(authorization);
+        return CommonApiResponse.success(response);
     }
 
 }

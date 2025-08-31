@@ -3,16 +3,21 @@ package com.example.chat_service.service;
 import static com.example.chat_service.entity.User.createUser;
 
 import com.example.chat_service.dto.response.token.TokenPair;
+import com.example.chat_service.dto.response.user.GetUserInfoResponse;
 import com.example.chat_service.dto.response.user.UserLoginResponse;
 import com.example.chat_service.dto.response.user.UserRegisterResponse;
 import com.example.chat_service.entity.User;
 import com.example.chat_service.repository.UserRepository;
+import com.example.chat_service.security.jwt.JwtTokenProvider;
 import com.example.chat_service.utils.PasswordUtils;
 import com.example.chat_service.validator.UserValidator;
+import io.jsonwebtoken.Claims;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -21,6 +26,7 @@ public class UserService {
     private final UserValidator userValidator;
     private final PasswordUtils passwordUtils;
     private final TokenService tokenService;
+    private final JwtTokenProvider jwtTokenProvider;
 
     @Transactional
     public UserRegisterResponse register(String username, String email, String rawPassword) {
@@ -36,6 +42,7 @@ public class UserService {
         return new UserRegisterResponse(savedUser);
     }
 
+    @Transactional
     public UserLoginResponse login(String email, String rawPassword) {
         /**
          * 사용자의 로그인을 처리합니다.
@@ -53,6 +60,22 @@ public class UserService {
         }
 
         throw new IllegalArgumentException("Invalid email or password");
+    }
+
+    public GetUserInfoResponse getUserInfo(String authorization) {
+        if (authorization == null) {
+            throw new IllegalArgumentException("Authorization is null");
+        }
+        
+        if (authorization.startsWith("Bearer ")) {
+            String accessToken = authorization.substring(7);
+            Claims claims = jwtTokenProvider.getClaimsFromToken(accessToken);
+
+            String email = claims.get("email", String.class);
+            return GetUserInfoResponse.create(email);
+        }
+
+        throw new IllegalArgumentException("Invalid authorization");
     }
 
 }
