@@ -40,5 +40,5 @@ public class ChatRoom extends BaseEntity {
 
     @Min(1)
     @Max(100)
-    private int memberLimit;
+    private Integer memberLimit;
 }
