@@ -1,4 +1,4 @@
-package com.example.chat_service.entity;
+package com.example.chat_service.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;

@@ -1,11 +1,10 @@
 package com.example.chat_service.service;
 
 import com.example.chat_service.dto.response.token.TokenPair;
-import com.example.chat_service.entity.User;
+import com.example.chat_service.domain.User;
 import com.example.chat_service.repository.UserRepository;
 import com.example.chat_service.security.jwt.JwtTokenProvider;
 import com.example.chat_service.validator.UserValidator;
-import java.util.NoSuchElementException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

@@ -1,4 +1,4 @@
-package com.example.chat_service.entity;
+package com.example.chat_service.domain;
 
 import lombok.Getter;
 
@@ -14,4 +14,8 @@ public enum RoomStatus {
     }
 
     private final String status;
+
+    public static RoomStatus from(String value) {
+        return RoomStatus.valueOf(value.toUpperCase());
+    }
 }

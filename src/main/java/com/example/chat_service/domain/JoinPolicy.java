@@ -1,4 +1,4 @@
-package com.example.chat_service.entity;
+package com.example.chat_service.domain;
 
 import lombok.Getter;
 
@@ -12,5 +12,9 @@ public enum JoinPolicy {
 
     JoinPolicy(String description) {
         this.description = description;
+    }
+
+    public static JoinPolicy from(String value) {
+        return JoinPolicy.valueOf(value.toUpperCase());
     }
 }

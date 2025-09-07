@@ -1,4 +1,4 @@
-package com.example.chat_service.entity;
+package com.example.chat_service.domain;
 
 import lombok.Getter;
 
@@ -13,5 +13,9 @@ public enum MemberStatus {
 
     MemberStatus(String description) {
         this.description = description;
+    }
+
+    public static MemberStatus from(String value) {
+        return MemberStatus.valueOf(value.toUpperCase());
     }
 }
