@@ -1,11 +1,20 @@
 package com.example.chat_service.domain;
 
+import com.example.chat_service.dto.request.chatroom.CreateChatRoomRequest;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
 @Entity
 public class ChatRoom extends BaseEntity {
 
@@ -41,4 +50,17 @@ public class ChatRoom extends BaseEntity {
     @Min(1)
     @Max(100)
     private Integer memberLimit;
+
+    public static ChatRoom create(CreateChatRoomRequest request) {
+        return ChatRoom.builder()
+                .title(request.getTitle())
+                .description(request.getDescription())
+                .avatarUrl(request.getAvatarUrl())
+                .status(RoomStatus.valueOf(request.getStatus()))
+                .type(RoomType.valueOf(request.getType()))
+                .visibility(Visibility.valueOf(request.getVisibility()))
+                .policy(JoinPolicy.valueOf(request.getPolicy()))
+                .memberLimit(request.getMemberLimit())
+                .build();
+    }
 }

@@ -1,5 +1,6 @@
 package com.example.chat_service.dto.request.chatroom;
 
+import com.example.chat_service.domain.JoinPolicy;
 import com.example.chat_service.domain.RoomStatus;
 import com.example.chat_service.domain.RoomType;
 import com.example.chat_service.domain.Visibility;
@@ -36,6 +37,11 @@ public class CreateChatRoomRequest {
     @ValidEnum(enumClass = Visibility.class)
     @Schema(allowableValues = {"PUBLIC", "PRIVATE"})
     private String visibility;
+
+    @NotNull
+    @ValidEnum(enumClass = JoinPolicy.class)
+    @Schema(allowableValues = {"OPEN", "INVITE_ONLY"})
+    private String policy;
 
     @NotNull
     @Min(1)

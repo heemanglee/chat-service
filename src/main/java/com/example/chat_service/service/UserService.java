@@ -1,21 +1,22 @@
 package com.example.chat_service.service;
 
-import static com.example.chat_service.domain.User.createUser;
-
+import com.example.chat_service.domain.User;
 import com.example.chat_service.dto.response.token.TokenPair;
 import com.example.chat_service.dto.response.user.GetUserInfoResponse;
 import com.example.chat_service.dto.response.user.UserLoginResponse;
 import com.example.chat_service.dto.response.user.UserRegisterResponse;
-import com.example.chat_service.domain.User;
+import com.example.chat_service.exception.UserNotFoundException;
 import com.example.chat_service.repository.UserRepository;
 import com.example.chat_service.security.dto.CustomUserDetails;
 import com.example.chat_service.security.jwt.JwtTokenProvider;
 import com.example.chat_service.utils.PasswordUtils;
 import com.example.chat_service.validator.UserValidator;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import static com.example.chat_service.domain.User.createUser;
 
 @Slf4j
 @Service
@@ -60,6 +61,12 @@ public class UserService {
         }
 
         throw new IllegalArgumentException("Invalid email or password");
+    }
+
+    @Transactional(readOnly = true)
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new UserNotFoundException("Not Found User Email: " + email));
     }
 
     public GetUserInfoResponse getUserInfo(CustomUserDetails userDetails) {

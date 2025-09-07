@@ -60,4 +60,18 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errors, HttpStatus.CONFLICT);
     }
 
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<Map<String, String>> handleUserNotFoundException(UserNotFoundException ex) {
+        Map<String, String> errors = new HashMap<>();
+        errors.put("message", ex.getMessage());
+        return new ResponseEntity<>(errors, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(DuplicateTitleException.class)
+    public ResponseEntity<Map<String, String>> handleDuplicateTitleException(DuplicateTitleException ex) {
+        Map<String, String> errors = new HashMap<>();
+        errors.put("message", ex.getMessage());
+        return new ResponseEntity<>(errors, HttpStatus.CONFLICT);
+    }
+
 }
