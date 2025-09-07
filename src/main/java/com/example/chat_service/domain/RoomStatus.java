@@ -9,11 +9,11 @@ public enum RoomStatus {
     ARCHIVED("아카이브"),
     DELETED("삭제됨");
 
-    RoomStatus(String status) {
-        this.status = status;
+    RoomStatus(String description) {
+        this.description = description;
     }
 
-    private final String status;
+    private final String description;
 
     public static RoomStatus from(String value) {
         return RoomStatus.valueOf(value.toUpperCase());

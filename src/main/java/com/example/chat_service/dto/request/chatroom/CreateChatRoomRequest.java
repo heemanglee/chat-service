@@ -13,8 +13,8 @@ import lombok.Getter;
 @Builder
 public class CreateChatRoomRequest {
 
-    @NotBlank
-    @Size(max = 20)
+    @NotBlank(message = "title은 필수 값입니다")
+    @Size(max = 20, message = "title은 20글자 이하이어야 합니다")
     private String title;
 
     @Size(max = 30)
@@ -23,17 +23,17 @@ public class CreateChatRoomRequest {
     private String avatarUrl;
 
     @NotBlank
-    @ValidEnum(enumClass = RoomStatus.class, ignoreCase = true)
+    @ValidEnum(enumClass = RoomStatus.class)
     @Schema(allowableValues = {"ACTIVE", "LEFT", "REMOVED"})
     private String status;
 
     @NotNull
-    @ValidEnum(enumClass = RoomType.class, ignoreCase = true)
+    @ValidEnum(enumClass = RoomType.class)
     @Schema(allowableValues = {"CHANNEL", "PERSONAL"})
     private String type;
 
     @NotNull
-    @ValidEnum(enumClass = Visibility.class, ignoreCase = true)
+    @ValidEnum(enumClass = Visibility.class)
     @Schema(allowableValues = {"PUBLIC", "PRIVATE"})
     private String visibility;
 
