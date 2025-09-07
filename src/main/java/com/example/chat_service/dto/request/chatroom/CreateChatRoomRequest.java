@@ -7,9 +7,13 @@ import com.example.chat_service.domain.Visibility;
 import com.example.chat_service.validator.common.ValidEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Builder
 public class CreateChatRoomRequest {
