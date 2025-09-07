@@ -1,5 +1,8 @@
 package com.example.chat_service.entity;
 
+import lombok.Getter;
+
+@Getter
 public enum JoinPolicy {
 
     OPEN("누구나 입장 가능"),

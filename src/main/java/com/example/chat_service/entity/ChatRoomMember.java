@@ -45,10 +45,4 @@ public class ChatRoomMember extends BaseEntity {
     @Column(nullable = false)
     private NotificationSetting setting = ON;
 
-    @PrePersist
-    public void prePersist() {
-        if (joinedAt == null) {
-            joinedAt = LocalDateTime.now();
-        }
-    }
 }
