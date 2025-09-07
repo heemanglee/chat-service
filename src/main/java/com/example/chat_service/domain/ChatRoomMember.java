@@ -1,11 +1,11 @@
-package com.example.chat_service.entity;
+package com.example.chat_service.domain;
 
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
-import static com.example.chat_service.entity.MemberStatus.ACTIVE;
-import static com.example.chat_service.entity.NotificationSetting.ON;
+import static com.example.chat_service.domain.MemberStatus.ACTIVE;
+import static com.example.chat_service.domain.NotificationSetting.ON;
 
 @Entity
 @Table(name = "chat_room_member", uniqueConstraints = {@UniqueConstraint(columnNames = {"chat_room_id", "user_id"})})
@@ -45,10 +45,4 @@ public class ChatRoomMember extends BaseEntity {
     @Column(nullable = false)
     private NotificationSetting setting = ON;
 
-    @PrePersist
-    public void prePersist() {
-        if (joinedAt == null) {
-            joinedAt = LocalDateTime.now();
-        }
-    }
 }

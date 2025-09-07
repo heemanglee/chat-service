@@ -1,4 +1,4 @@
-package com.example.chat_service.entity;
+package com.example.chat_service.domain;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
@@ -40,5 +40,5 @@ public class ChatRoom extends BaseEntity {
 
     @Min(1)
     @Max(100)
-    private int memberLimit;
+    private Integer memberLimit;
 }

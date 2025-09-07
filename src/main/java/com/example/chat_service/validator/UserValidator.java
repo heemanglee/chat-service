@@ -1,6 +1,6 @@
 package com.example.chat_service.validator;
 
-import com.example.chat_service.entity.User;
+import com.example.chat_service.domain.User;
 import com.example.chat_service.exception.DuplicateEmailException;
 import com.example.chat_service.exception.InvalidTokenException;
 import com.example.chat_service.repository.UserRepository;

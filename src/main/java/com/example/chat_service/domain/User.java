@@ -1,19 +1,12 @@
-package com.example.chat_service.entity;
+package com.example.chat_service.domain;
 
-import static com.example.chat_service.constant.UserStatus.*;
-
-import com.example.chat_service.constant.UserStatus;
-import com.example.chat_service.converter.UserStatusConverter;
-import jakarta.persistence.Column;
-import jakarta.persistence.Convert;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import java.time.LocalDateTime;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
+
+import static com.example.chat_service.domain.UserStatus.OFFLINE;
 
 @Getter
 @NoArgsConstructor
@@ -25,16 +18,17 @@ public class User extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "username", length = 100)
+    @Column(name = "username", length = 100, nullable = false)
     private String username;
 
-    @Column(name = "email", unique = true)
+    @Column(name = "email", unique = true, nullable = false)
     private String email;
 
-    @Column(name = "password")
+    @Column(name = "password", nullable = false)
     private String password;
 
-    @Convert(converter = UserStatusConverter.class)
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private UserStatus status = OFFLINE;
 
     @Column(name = "last_seen")

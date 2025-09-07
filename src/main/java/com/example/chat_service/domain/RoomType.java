@@ -1,5 +1,8 @@
-package com.example.chat_service.entity;
+package com.example.chat_service.domain;
 
+import lombok.Getter;
+
+@Getter
 public enum RoomType {
 
     CHANNEL("채널"),
@@ -9,5 +12,9 @@ public enum RoomType {
 
     RoomType(String description) {
         this.description = description;
+    }
+
+    public static RoomType from(String value) {
+        return RoomType.valueOf(value.toUpperCase());
     }
 }

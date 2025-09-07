@@ -1,5 +1,8 @@
-package com.example.chat_service.entity;
+package com.example.chat_service.domain;
 
+import lombok.Getter;
+
+@Getter
 public enum Visibility {
 
     PUBLIC("공개 채널"),
@@ -9,5 +12,9 @@ public enum Visibility {
 
     Visibility(String description) {
         this.description = description;
+    }
+
+    public static Visibility from(String value) {
+        return Visibility.valueOf(value.toUpperCase());
     }
 }

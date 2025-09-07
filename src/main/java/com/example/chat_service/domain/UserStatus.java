@@ -1,4 +1,4 @@
-package com.example.chat_service.constant;
+package com.example.chat_service.domain;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

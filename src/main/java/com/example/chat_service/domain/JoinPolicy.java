@@ -1,5 +1,8 @@
-package com.example.chat_service.entity;
+package com.example.chat_service.domain;
 
+import lombok.Getter;
+
+@Getter
 public enum JoinPolicy {
 
     OPEN("누구나 입장 가능"),
@@ -9,5 +12,9 @@ public enum JoinPolicy {
 
     JoinPolicy(String description) {
         this.description = description;
+    }
+
+    public static JoinPolicy from(String value) {
+        return JoinPolicy.valueOf(value.toUpperCase());
     }
 }

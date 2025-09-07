@@ -1,6 +1,6 @@
 package com.example.chat_service.dto.response.user;
 
-import com.example.chat_service.entity.User;
+import com.example.chat_service.domain.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

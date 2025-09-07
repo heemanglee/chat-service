@@ -1,5 +1,8 @@
-package com.example.chat_service.entity;
+package com.example.chat_service.domain;
 
+import lombok.Getter;
+
+@Getter
 public enum MemberStatus {
 
     ACTIVE("참여 중인 상태"),
@@ -10,5 +13,9 @@ public enum MemberStatus {
 
     MemberStatus(String description) {
         this.description = description;
+    }
+
+    public static MemberStatus from(String value) {
+        return MemberStatus.valueOf(value.toUpperCase());
     }
 }

@@ -1,24 +1,20 @@
 package com.example.chat_service.service;
 
-import static com.example.chat_service.entity.User.createUser;
+import static com.example.chat_service.domain.User.createUser;
 
 import com.example.chat_service.dto.response.token.TokenPair;
 import com.example.chat_service.dto.response.user.GetUserInfoResponse;
 import com.example.chat_service.dto.response.user.UserLoginResponse;
 import com.example.chat_service.dto.response.user.UserRegisterResponse;
-import com.example.chat_service.entity.User;
+import com.example.chat_service.domain.User;
 import com.example.chat_service.repository.UserRepository;
 import com.example.chat_service.security.dto.CustomUserDetails;
 import com.example.chat_service.security.jwt.JwtTokenProvider;
 import com.example.chat_service.utils.PasswordUtils;
 import com.example.chat_service.validator.UserValidator;
-import io.jsonwebtoken.Claims;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 @Slf4j
